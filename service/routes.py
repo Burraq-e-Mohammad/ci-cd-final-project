@@ -22,13 +22,56 @@ def health():
 ############################################################
 @app.route("/")
 def index():
-    """Returns information abut the service"""
+    """Returns information about the service and available endpoints"""
     app.logger.info("Request for Base URL")
+    
+    # Detailed service information for "Discovery"
     return jsonify(
-        status=status.HTTP_200_OK,
-        message="Hit Counter Service",
-        version="1.0.0",
-        url=url_for("list_counters", _external=True),
+        service_name="Hit Counter Service",
+        version="1.1.0",
+        status="OK",
+        description="A lightweight microservice for tracking hit counters in real-time.",
+        endpoints={
+            "root": {
+                "url": url_for("index", _external=True),
+                "method": "GET",
+                "description": "This discovery page"
+            },
+            "health": {
+                "url": url_for("health", _external=True),
+                "method": "GET",
+                "description": "Health check for the service"
+            },
+            "list_counters": {
+                "url": url_for("list_counters", _external=True),
+                "method": "GET",
+                "description": "Get a list of all active counters"
+            },
+            "create_counter": {
+                "url": url_for("list_counters", _external=True) + "/<name>",
+                "method": "POST",
+                "description": "Initialize a new counter with zero count"
+            },
+            "read_counter": {
+                "url": url_for("list_counters", _external=True) + "/<name>",
+                "method": "GET",
+                "description": "Read the current value of a specific counter"
+            },
+            "update_counter": {
+                "url": url_for("list_counters", _external=True) + "/<name>",
+                "method": "PUT",
+                "description": "Increment the value of a specific counter by 1"
+            },
+            "delete_counter": {
+                "url": url_for("list_counters", _external=True) + "/<name>",
+                "method": "DELETE",
+                "description": "Permanently remove a counter"
+            }
+        },
+        service_stats={
+            "total_counters": len(COUNTER),
+            "running_environment": "Docker Container"
+        }
     )
 
 

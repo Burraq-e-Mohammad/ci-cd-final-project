@@ -1,0 +1,10 @@
+services:
+  counter-service:
+    build: .
+    image: ci-cd-image
+    container_name: counter-service
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: gunicorn --bind 0.0.0.0:8000 --reload service:app
