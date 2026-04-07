@@ -24,7 +24,7 @@ def health():
 def index():
     """Returns information about the service and available endpoints"""
     app.logger.info("Request for Base URL")
-    
+
     # Detailed service information for "Discovery"
     return jsonify(
         service_name="Hit Counter Service",
